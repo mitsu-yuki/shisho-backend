@@ -5,6 +5,7 @@ import (
 
 	errDomain "github.com/mitsu-yuki/shisho-backend/internal/domain/error"
 	"github.com/mitsu-yuki/shisho-backend/pkg/ulid"
+	"github.com/osamingo/checkdigit"
 )
 
 type Book struct {
@@ -43,6 +44,11 @@ func newBook(
 	// 著者リストIDのバリデーション
 	if !ulid.IsValid(authorListID) {
 		return nil, errDomain.NewError("authorListID is invalid")
+	}
+
+	// ISBNがある場合には有効なISBNか調べる
+	if isbn != "" && !checkdigit.NewISBN13().Verify(isbn) {
+		return nil, errDomain.NewError("ISBN is invalid")
 	}
 
 	return &Book{
