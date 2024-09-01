@@ -6,7 +6,7 @@ import (
 
 	errDomain "github.com/mitsu-yuki/shisho-backend/internal/domain/error"
 	"github.com/mitsu-yuki/shisho-backend/pkg/ulid"
-	"github.com/osamingo/checkdigit"
+	"github.com/mitsu-yuki/shisho-backend/pkg/checkdigit"
 )
 
 const (
@@ -57,7 +57,7 @@ func newBook(
 	}
 
 	// ISBNがある場合には有効なISBNか調べる
-	if isbn != "" && !checkdigit.NewISBN13().Verify(isbn) {
+	if isbn != "" && !checkdigit.ISBN13IsValid(isbn) {
 		return nil, errDomain.NewError("ISBN is invalid")
 	}
 
