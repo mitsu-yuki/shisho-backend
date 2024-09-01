@@ -2,12 +2,17 @@ package book
 
 import (
 	"time"
+	"unicode/utf8"
 
 	errDomain "github.com/mitsu-yuki/shisho-backend/internal/domain/error"
 	"github.com/mitsu-yuki/shisho-backend/pkg/ulid"
 	"github.com/osamingo/checkdigit"
 )
 
+const (
+	// タイトルの最小値
+	titleLengthMin = 1
+)
 type Book struct {
 	id           string
 	isbn         string
@@ -44,6 +49,11 @@ func newBook(
 	// 著者リストIDのバリデーション
 	if !ulid.IsValid(authorListID) {
 		return nil, errDomain.NewError("authorListID is invalid")
+	}
+
+	// タイトルのバリデーション
+	if utf8.RuneCountInString(title) < titleLengthMin {
+		return nil, errDomain.NewError("title is invalid")
 	}
 
 	// ISBNがある場合には有効なISBNか調べる
