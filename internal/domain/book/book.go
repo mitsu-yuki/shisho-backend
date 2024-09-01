@@ -24,8 +24,8 @@ type Book struct {
 	releaseDay     time.Time
 	price          int
 	explain        string
-	addTime        time.Time
-	lastUpdateTime time.Time
+	createAt        time.Time
+	lastUpdateAt time.Time
 }
 
 func newBook(
@@ -38,8 +38,8 @@ func newBook(
 	releaseDay time.Time,
 	price int,
 	explain string,
-	addTime time.Time,
-	lastUpdateTime time.Time,
+	createAt time.Time,
+	lastUpdateAt time.Time,
 ) (*Book, error) {
 	// レーベルIDのバリデーション
 	if !ulid.IsValid(labelID) {
@@ -76,8 +76,8 @@ func newBook(
 		releaseDay:     releaseDay,
 		price:          price,
 		explain:        explain,
-		addTime:        addTime,
-		lastUpdateTime: lastUpdateTime,
+		createAt:        createAt,
+		lastUpdateAt: lastUpdateAt,
 	}, nil
 }
 
@@ -91,8 +91,8 @@ func Reconstruct(
 	releaseDay time.Time,
 	price int,
 	explain string,
-	addTime time.Time,
-	lastUpdateTime time.Time,
+	createAt time.Time,
+	lastUpdateAt time.Time,
 ) (*Book, error) {
 	return newBook(
 		id,
@@ -104,8 +104,8 @@ func Reconstruct(
 		releaseDay,
 		price,
 		explain,
-		addTime,
-		lastUpdateTime,
+		createAt,
+		lastUpdateAt,
 	)
 }
 
@@ -118,8 +118,8 @@ func NewBook(
 	releaseDay time.Time,
 	price int,
 	explain string,
-	addTime time.Time,
-	lastUpdateTime time.Time,
+	createAt time.Time,
+	lastUpdateAt time.Time,
 ) (*Book, error) {
 	return newBook(
 		ulid.NewULID(),
@@ -131,7 +131,7 @@ func NewBook(
 		releaseDay,
 		price,
 		explain,
-		addTime,
-		lastUpdateTime,
+		createAt,
+		lastUpdateAt,
 	)
 }

@@ -145,10 +145,10 @@ func TestNewBook(t *testing.T) {
 	}
 	ReleaseDay := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
 	AddTime := time.Date(2020, 1, 2, 3, 4, 5, 6, time.Local)
-	lastUpdateTime := time.Date(2020, 1, 2, 3, 4, 5, 6, time.Local)
+	LastUpdateAt := time.Date(2020, 1, 2, 3, 4, 5, 6, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewBook(tt.args.isbn, tt.args.labelID, tt.args.publishID, tt.args.title, tt.args.authorListID, ReleaseDay, tt.args.price, tt.args.explain, AddTime, lastUpdateTime)
+			got, err := NewBook(tt.args.isbn, tt.args.labelID, tt.args.publishID, tt.args.title, tt.args.authorListID, ReleaseDay, tt.args.price, tt.args.explain, AddTime, LastUpdateAt)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewBook() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -156,7 +156,7 @@ func TestNewBook(t *testing.T) {
 			diff := cmp.Diff(
 				got, tt.want,
 				cmp.AllowUnexported(Book{}),
-				cmpopts.IgnoreFields(Book{}, "id", "releaseDay", "addTime", "lastUpdateTime"),
+				cmpopts.IgnoreFields(Book{}, "id", "releaseDay", "createAt", "lastUpdateAt"),
 			)
 			if diff != "" {
 				t.Errorf("NewBook() error = %v, wantErr %v. diff is %s", got, tt.wantErr, diff)
