@@ -5,24 +5,27 @@ import (
 	"unicode/utf8"
 
 	errDomain "github.com/mitsu-yuki/shisho-backend/internal/domain/error"
-	"github.com/mitsu-yuki/shisho-backend/pkg/ulid"
 	"github.com/mitsu-yuki/shisho-backend/pkg/checkdigit"
+	"github.com/mitsu-yuki/shisho-backend/pkg/ulid"
 )
 
 const (
 	// タイトルの最小値
 	titleLengthMin = 1
 )
+
 type Book struct {
-	id           string
-	isbn         string
-	labelID      string
-	publishID    string
-	title        string
-	authorListID string
-	releaseDay   time.Time
-	price        int
-	explain      string
+	id             string
+	isbn           string
+	labelID        string
+	publishID      string
+	title          string
+	authorListID   string
+	releaseDay     time.Time
+	price          int
+	explain        string
+	addTime        time.Time
+	lastUpdateTime time.Time
 }
 
 func newBook(
@@ -35,6 +38,8 @@ func newBook(
 	releaseDay time.Time,
 	price int,
 	explain string,
+	addTime time.Time,
+	lastUpdateTime time.Time,
 ) (*Book, error) {
 	// レーベルIDのバリデーション
 	if !ulid.IsValid(labelID) {
@@ -62,15 +67,17 @@ func newBook(
 	}
 
 	return &Book{
-		id:           id,
-		isbn:         isbn,
-		labelID:      labelID,
-		publishID:    publishID,
-		title:        title,
-		authorListID: authorListID,
-		releaseDay:   releaseDay,
-		price:        price,
-		explain:      explain,
+		id:             id,
+		isbn:           isbn,
+		labelID:        labelID,
+		publishID:      publishID,
+		title:          title,
+		authorListID:   authorListID,
+		releaseDay:     releaseDay,
+		price:          price,
+		explain:        explain,
+		addTime:        addTime,
+		lastUpdateTime: lastUpdateTime,
 	}, nil
 }
 
@@ -84,6 +91,8 @@ func Reconstruct(
 	releaseDay time.Time,
 	price int,
 	explain string,
+	addTime time.Time,
+	lastUpdateTime time.Time,
 ) (*Book, error) {
 	return newBook(
 		id,
@@ -95,6 +104,8 @@ func Reconstruct(
 		releaseDay,
 		price,
 		explain,
+		addTime,
+		lastUpdateTime,
 	)
 }
 
@@ -107,6 +118,8 @@ func NewBook(
 	releaseDay time.Time,
 	price int,
 	explain string,
+	addTime time.Time,
+	lastUpdateTime time.Time,
 ) (*Book, error) {
 	return newBook(
 		ulid.NewULID(),
@@ -118,5 +131,7 @@ func NewBook(
 		releaseDay,
 		price,
 		explain,
+		addTime,
+		lastUpdateTime,
 	)
 }
