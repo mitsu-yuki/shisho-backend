@@ -1,4 +1,4 @@
-package creator
+package author
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
-func TestNewCreator(t *testing.T) {
+func TestNewAuthor(t *testing.T) {
 	type args struct {
 		name         string
 		namePhonic   string
@@ -19,7 +19,7 @@ func TestNewCreator(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Creator
+		want    *Author
 		wantErr bool
 	}{
 		{
@@ -30,7 +30,7 @@ func TestNewCreator(t *testing.T) {
 				createAt:   time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local),
 				lastUpdateAt:   time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local),
 			},
-			want: &Creator{
+			want: &Author{
 				name:       "test",
 				namePhonic: "テスト",
 				createAt:   time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local),
@@ -85,20 +85,20 @@ func TestNewCreator(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err :=  NewCreator(tt.args.name, tt.args.namePhonic, tt.args.createAt, tt.args.lastUpdateAt)
+			got, err :=  NewAuthor(tt.args.name, tt.args.namePhonic, tt.args.createAt, tt.args.lastUpdateAt)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("NewCreator() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("NewAuthor() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 
 			diff := cmp.Diff(
 				got, tt.want,
-				cmp.AllowUnexported(Creator{}),
-				cmpopts.IgnoreFields(Creator{}, "id"),
+				cmp.AllowUnexported(Author{}),
+				cmpopts.IgnoreFields(Author{}, "id"),
 			)
 
 			if diff != "" {
-				t.Errorf("NewCreator() = %v, want = %v, error is %s", got, tt.want, diff)
+				t.Errorf("NewAuthor() = %v, want = %v, error is %s", got, tt.want, diff)
 			}
 		})
 	}

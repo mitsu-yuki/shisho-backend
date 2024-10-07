@@ -1,4 +1,4 @@
-package creator
+package author
 
 import (
 	"time"
@@ -14,7 +14,7 @@ const (
 	namePhonicLengthMin = 1
 )
 
-type Creator struct {
+type Author struct {
 	id           string
 	name         string
 	namePhonic   string
@@ -22,13 +22,13 @@ type Creator struct {
 	lastUpdateAt time.Time
 }
 
-func newCreator(
+func newAuthor(
 	id string,
 	name string,
 	namePhonic string,
 	createAt time.Time,
 	lastUpdateAt time.Time,
-) (*Creator, error) {
+) (*Author, error) {
 	// 名前のバリデーション
 	if utf8.RuneCountInString(name) < nameLengthMin {
 		return nil, errDomain.NewError("name is invalid")
@@ -44,7 +44,7 @@ func newCreator(
 		return nil, errDomain.NewError("createAt and lastUpdateAt are invalid")
 	}
 
-	return &Creator{
+	return &Author{
 		id:           id,
 		name:         name,
 		namePhonic:   namePhonic,
@@ -59,15 +59,15 @@ func Reconstruct(
 	namePhonic string,
 	createAt time.Time,
 	lastUpdateAt time.Time,
-) (*Creator, error) {
-	return newCreator(id, name, namePhonic, createAt, lastUpdateAt)
+) (*Author, error) {
+	return newAuthor(id, name, namePhonic, createAt, lastUpdateAt)
 }
 
-func NewCreator(
+func NewAuthor(
 	name string,
 	namePhonic string,
 	createAt time.Time,
 	lastUpdateAt time.Time,
-) (*Creator, error) {
-	return newCreator(ulid.NewULID(), name, namePhonic, createAt, lastUpdateAt)
+) (*Author, error) {
+	return newAuthor(ulid.NewULID(), name, namePhonic, createAt, lastUpdateAt)
 }
