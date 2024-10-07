@@ -20,7 +20,7 @@ type Book struct {
 	labelID        string
 	publishID      string
 	title          string
-	authorListID   string
+	authorIDs   string
 	releaseDay     time.Time
 	price          int
 	explain        string
@@ -34,7 +34,7 @@ func newBook(
 	labelID string,
 	publishID string,
 	title string,
-	authorListID string,
+	authorIDs string,
 	releaseDay time.Time,
 	price int,
 	explain string,
@@ -52,8 +52,8 @@ func newBook(
 	}
 
 	// 著者リストIDのバリデーション
-	if !ulid.IsValid(authorListID) {
-		return nil, errDomain.NewError("authorListID is invalid")
+	if !ulid.IsValid(authorIDs) {
+		return nil, errDomain.NewError("authorIDs is invalid")
 	}
 
 	// タイトルのバリデーション
@@ -72,7 +72,7 @@ func newBook(
 		labelID:        labelID,
 		publishID:      publishID,
 		title:          title,
-		authorListID:   authorListID,
+		authorIDs:   authorIDs,
 		releaseDay:     releaseDay,
 		price:          price,
 		explain:        explain,
@@ -87,7 +87,7 @@ func Reconstruct(
 	labelID string,
 	publishID string,
 	title string,
-	authorListID string,
+	authorIDs string,
 	releaseDay time.Time,
 	price int,
 	explain string,
@@ -100,7 +100,7 @@ func Reconstruct(
 		labelID,
 		publishID,
 		title,
-		authorListID,
+		authorIDs,
 		releaseDay,
 		price,
 		explain,
@@ -114,7 +114,7 @@ func NewBook(
 	labelID string,
 	publishID string,
 	title string,
-	authorListID string,
+	authorIDs string,
 	releaseDay time.Time,
 	price int,
 	explain string,
@@ -127,7 +127,7 @@ func NewBook(
 		labelID,
 		publishID,
 		title,
-		authorListID,
+		authorIDs,
 		releaseDay,
 		price,
 		explain,

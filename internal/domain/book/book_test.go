@@ -12,13 +12,13 @@ import (
 func TestNewBook(t *testing.T) {
 	labelID := ulid.NewULID()
 	publishID := ulid.NewULID()
-	authorListID := ulid.NewULID()
+	authorIDs := ulid.NewULID()
 	type args struct {
 		isbn         string
 		labelID      string
 		publishID    string
 		title        string
-		authorListID string
+		authorIDs string
 		price        int
 		explain      string
 	}
@@ -35,7 +35,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -44,7 +44,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -56,7 +56,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -64,7 +64,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -77,7 +77,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -91,7 +91,7 @@ func TestNewBook(t *testing.T) {
 				labelID: "test",
 				publishID: publishID,
 				title: "",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -105,7 +105,7 @@ func TestNewBook(t *testing.T) {
 				labelID: "test",
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -120,7 +120,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: "test",
 				title: "書籍タイトル",
-				authorListID: authorListID,
+				authorIDs: authorIDs,
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -135,7 +135,7 @@ func TestNewBook(t *testing.T) {
 				labelID: labelID,
 				publishID: publishID,
 				title: "書籍タイトル",
-				authorListID: "test",
+				authorIDs: "test",
 				price: 800,
 				explain: "書籍の説明",
 			},
@@ -148,7 +148,7 @@ func TestNewBook(t *testing.T) {
 	LastUpdateAt := time.Date(2020, 1, 2, 3, 4, 5, 6, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewBook(tt.args.isbn, tt.args.labelID, tt.args.publishID, tt.args.title, tt.args.authorListID, ReleaseDay, tt.args.price, tt.args.explain, AddTime, LastUpdateAt)
+			got, err := NewBook(tt.args.isbn, tt.args.labelID, tt.args.publishID, tt.args.title, tt.args.authorIDs, ReleaseDay, tt.args.price, tt.args.explain, AddTime, LastUpdateAt)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewBook() error = %v, wantErr %v", err, tt.wantErr)
 				return
