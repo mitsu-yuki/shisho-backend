@@ -135,3 +135,65 @@ func NewBook(
 		lastUpdateAt,
 	)
 }
+
+func (b *Book) ID() string {
+	return b.id
+}
+
+func (b *Book) ISBN() string {
+	return b.isbn
+}
+
+func (b *Book) LabelID() string {
+	return b.labelID
+}
+
+func (b *Book) PublishID() string {
+	return b.publishID
+}
+
+func (b *Book) Title() string {
+	return b.title
+}
+
+func (b *Book) AuthorIDs() []string {
+	var authorIDs []string
+	for _, author := range b.authorIDs {
+		authorIDs = append(authorIDs, author.authorID)
+	}
+	return authorIDs
+}
+
+func (b *Book) ReleaseDay() time.Time {
+	return b.releaseDay
+}
+
+func (b *Book) Price() int {
+	return b.price
+}
+
+func (b *Book) Explain() string {
+	return b.explain
+}
+
+func (b *Book) CreateAt() time.Time {
+	return b.createAt
+}
+
+func (b *Book) LastUpdateAt() time.Time {
+	return b.lastUpdateAt
+}
+
+type BookAuthors []BookAuthor
+
+type BookAuthor struct {
+	authorID string
+}
+
+func (b BookAuthors) AuthorIDs() []string {
+	var authorIDs []string
+	for _, author := range b {
+		authorIDs = append(authorIDs, author.authorID)
+	}
+	return authorIDs
+}
