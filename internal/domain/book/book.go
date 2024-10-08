@@ -15,16 +15,16 @@ const (
 )
 
 type Book struct {
-	id             string
-	isbn           string
-	labelID        string
-	publishID      string
-	title          string
-	authorIDs   string
-	releaseDay     time.Time
-	price          int
-	explain        string
-	createAt        time.Time
+	id           string
+	isbn         string
+	labelID      string
+	publishID    string
+	title        string
+	authorIDs    BookAuthors
+	releaseDay   time.Time
+	price        int
+	explain      string
+	createAt     time.Time
 	lastUpdateAt time.Time
 }
 
@@ -34,7 +34,7 @@ func newBook(
 	labelID string,
 	publishID string,
 	title string,
-	authorIDs string,
+	authorIDs []BookAuthor,
 	releaseDay time.Time,
 	price int,
 	explain string,
@@ -52,9 +52,9 @@ func newBook(
 	}
 
 	// 著者リストIDのバリデーション
-	if !ulid.IsValid(authorIDs) {
-		return nil, errDomain.NewError("authorIDs is invalid")
-	}
+	// if !ulid.IsValid(authorIDs) {
+	// 	return nil, errDomain.NewError("authorIDs is invalid")
+	// }
 
 	// タイトルのバリデーション
 	if utf8.RuneCountInString(title) < titleLengthMin {
@@ -67,16 +67,16 @@ func newBook(
 	}
 
 	return &Book{
-		id:             id,
-		isbn:           isbn,
-		labelID:        labelID,
-		publishID:      publishID,
-		title:          title,
-		authorIDs:   authorIDs,
-		releaseDay:     releaseDay,
-		price:          price,
-		explain:        explain,
-		createAt:        createAt,
+		id:           id,
+		isbn:         isbn,
+		labelID:      labelID,
+		publishID:    publishID,
+		title:        title,
+		authorIDs:    authorIDs,
+		releaseDay:   releaseDay,
+		price:        price,
+		explain:      explain,
+		createAt:     createAt,
 		lastUpdateAt: lastUpdateAt,
 	}, nil
 }
@@ -87,7 +87,7 @@ func Reconstruct(
 	labelID string,
 	publishID string,
 	title string,
-	authorIDs string,
+	authorIDs []BookAuthor,
 	releaseDay time.Time,
 	price int,
 	explain string,
@@ -114,7 +114,7 @@ func NewBook(
 	labelID string,
 	publishID string,
 	title string,
-	authorIDs string,
+	authorIDs []BookAuthor,
 	releaseDay time.Time,
 	price int,
 	explain string,
