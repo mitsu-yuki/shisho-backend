@@ -52,9 +52,9 @@ func newBook(
 	}
 
 	// 著者リストIDのバリデーション
-	// if !ulid.IsValid(authorIDs) {
-	// 	return nil, errDomain.NewError("authorIDs is invalid")
-	// }
+	if len(authorIDs) < 1 {
+		return nil, errDomain.NewError("authorIDs is invalid")
+	}
 
 	// タイトルのバリデーション
 	if utf8.RuneCountInString(title) < titleLengthMin {
