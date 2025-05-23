@@ -1,0 +1,10 @@
+name: shisho-backend
+
+services:
+  shisho-backend:
+    build: shisho-backend
+    init: true
+    volumes:
+      - type: bind
+        source: ../
+        target: /workspace
