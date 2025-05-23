@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# prohibit commits to main branch
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+declare -a forbidden_branches=("release" "main")
+for branch in "${forbidden_branches[@]}"; do
+  if [ "${current_branch}" = "${branch}" ]; then
+    echo "❌ Error: You are trying to commit directly to ${current_branch}!"
+    echo "Please create a new branch and commit there instead. 🌟"
+    exit 1
+  fi
+done
