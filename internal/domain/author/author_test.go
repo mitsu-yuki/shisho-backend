@@ -116,14 +116,12 @@ func TestNewAuthor(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := NewAuthor(tt.args.name, tt.args.namePhonic, tt.args.createAt, tt.args.lastUpdateAt, tt.args.deletedAt)
-			if err != nil {
-				if !tt.wantErr {
-					t.Errorf("NewAuthor() error = %v, wantErr %v", err, tt.wantErr)
-					return
-				}
-				if err.Error() != tt.wantErrStr {
-					t.Errorf("got: %v, want: %s", err.Error(), tt.wantErrStr)
-					return
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewAuthor() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			if err != nil && err.Error() != tt.wantErrStr {
+				if diff := cmp.Diff(err.Error(), tt.wantErrStr); diff != "" {
+					t.Errorf("got: %v, want: %s.\n error is %s", err.Error(), tt.wantErrStr, diff)
 				}
 			}
 			diff := cmp.Diff(
@@ -133,7 +131,7 @@ func TestNewAuthor(t *testing.T) {
 			)
 
 			if diff != "" {
-				t.Errorf("NewAuthor() = %v, want = %v, error is %s", got, tt.want, diff)
+				t.Errorf("NewAuthor() = %v, want = %v.\n error is %s", got, tt.want, diff)
 			}
 		})
 	}
