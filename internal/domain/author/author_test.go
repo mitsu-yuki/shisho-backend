@@ -1,6 +1,7 @@
 package author
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -21,10 +22,11 @@ func TestNewAuthor(t *testing.T) {
 	}
 
 	tests := []struct {
-		name    string
-		args    args
-		want    *Author
-		wantErr bool
+		name       string
+		args       args
+		want       *Author
+		wantErr    bool
+		wantErrStr string
 	}{
 		{
 			name: "正常系",
@@ -42,7 +44,8 @@ func TestNewAuthor(t *testing.T) {
 				lastUpdateAt: now,
 				deletedAt:    nil,
 			},
-			wantErr: false,
+			wantErr:    false,
+			wantErrStr: "",
 		},
 		{
 			name: "異常系: nameが不正",
@@ -53,11 +56,25 @@ func TestNewAuthor(t *testing.T) {
 				lastUpdateAt: later,
 				deletedAt:    &later,
 			},
-			want:    nil,
-			wantErr: true,
+			want:       nil,
+			wantErr:    true,
+			wantErrStr: fmt.Sprintf("著者名は%d文字以上である必要があります", nameLengthMin),
 		},
 		{
 			name: "異常系: namePhonicが不正",
+			args: args{
+				name:         "test",
+				namePhonic:   "",
+				createAt:     now,
+				lastUpdateAt: later,
+				deletedAt:    nil,
+			},
+			want:       nil,
+			wantErr:    true,
+			wantErrStr: fmt.Sprintf("著者名読みは%d文字以上である必要があります", namePhonicLengthMin),
+		},
+		{
+			name: "異常系: namePhonicがカタカナでない",
 			args: args{
 				name:         "test",
 				namePhonic:   "てすと",
@@ -65,20 +82,9 @@ func TestNewAuthor(t *testing.T) {
 				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
-			want:    nil,
-			wantErr: true,
-		},
-		{
-			name: "異常系: namePhonicが空",
-			args: args{
-				name:         "test",
-				namePhonic:   "",
-				createAt:     now,
-				lastUpdateAt: now,
-				deletedAt:    nil,
-			},
-			want:    nil,
-			wantErr: true,
+			want:       nil,
+			wantErr:    true,
+			wantErrStr: "著者名読みはカタカナである必要があります",
 		},
 		{
 			name: "異常系: 作成日が不正",
@@ -89,8 +95,9 @@ func TestNewAuthor(t *testing.T) {
 				lastUpdateAt: earlier,
 				deletedAt:    nil,
 			},
-			want:    nil,
-			wantErr: true,
+			want:       nil,
+			wantErr:    true,
+			wantErrStr: "更新日は作成日よりも後である必要があります",
 		},
 		{
 			name: "異常系: 削除日が不正",
@@ -101,16 +108,23 @@ func TestNewAuthor(t *testing.T) {
 				lastUpdateAt: now,
 				deletedAt:    &earlier,
 			},
-			want:    nil,
-			wantErr: true,
+			want:       nil,
+			wantErr:    true,
+			wantErrStr: "削除日は作成日よりも後である必要があります",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := NewAuthor(tt.args.name, tt.args.namePhonic, tt.args.createAt, tt.args.lastUpdateAt, tt.args.deletedAt)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("NewAuthor() error = %v, wantErr %v", err, tt.wantErr)
-				return
+			if err != nil {
+				if !tt.wantErr {
+					t.Errorf("NewAuthor() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+				if err.Error() != tt.wantErrStr {
+					t.Errorf("got: %v, want: %s", err.Error(), tt.wantErrStr)
+					return
+				}
 			}
 			diff := cmp.Diff(
 				got, tt.want,
