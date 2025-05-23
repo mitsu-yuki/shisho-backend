@@ -1,0 +1,6 @@
+{
+  "name": "shisho-backend",
+  "dockerComposeFile": "compose.yaml",
+  "service": "shisho-backend",
+  "workspaceFolder": "/workspace"
+}
