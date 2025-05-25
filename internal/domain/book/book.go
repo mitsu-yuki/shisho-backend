@@ -1,6 +1,7 @@
 package book
 
 import (
+	"fmt"
 	"time"
 	"unicode/utf8"
 
@@ -12,11 +13,14 @@ import (
 const (
 	// タイトルの最小値
 	titleLengthMin = 1
+	// 著者の最小数
+	bookAuthorsLengthMin = 1
+	priceMin             = 0
 )
 
 type Book struct {
 	id           string
-	isbn         string
+	isbn         *string
 	labelID      string
 	publishID    string
 	title        string
@@ -26,11 +30,12 @@ type Book struct {
 	explain      string
 	createAt     time.Time
 	lastUpdateAt time.Time
+	deletedAt    *time.Time
 }
 
 func newBook(
 	id string,
-	isbn string,
+	isbn *string,
 	labelID string,
 	publishID string,
 	title string,
@@ -40,32 +45,51 @@ func newBook(
 	explain string,
 	createAt time.Time,
 	lastUpdateAt time.Time,
+	deletedAt *time.Time,
 ) (*Book, error) {
+	// ISBNがある場合には有効なISBNか調べる
+	if isbn != nil && !checkdigit.ISBN13IsValid(*isbn) {
+		return nil, errDomain.NewError("ISBNが不正です")
+	}
+
 	// レーベルIDのバリデーション
 	if !ulid.IsValid(labelID) {
-		return nil, errDomain.NewError("labelID is invalid.")
+		return nil, errDomain.NewError("レーベルIDが不正です")
 	}
 
 	// 出版社IDのバリデーション
 	if !ulid.IsValid(publishID) {
-		return nil, errDomain.NewError("publishID is invalid.")
-	}
-
-	// 著者リストIDのバリデーション
-	if len(authorIDs) < 1 {
-		return nil, errDomain.NewError("authorIDs is invalid")
+		return nil, errDomain.NewError("出版社IDが不正です")
 	}
 
 	// タイトルのバリデーション
 	if utf8.RuneCountInString(title) < titleLengthMin {
-		return nil, errDomain.NewError("title is invalid")
+		return nil, errDomain.NewError(fmt.Sprintf("タイトル名は%d文字以上である必要があります", titleLengthMin))
 	}
 
-	// ISBNがある場合には有効なISBNか調べる
-	if isbn != "" && !checkdigit.ISBN13IsValid(isbn) {
-		return nil, errDomain.NewError("ISBN is invalid")
+	// 著者リストIDのバリデーション
+	if len(authorIDs) < bookAuthorsLengthMin {
+		return nil, errDomain.NewError(fmt.Sprintf("著者は%d人以上である必要があります", bookAuthorsLengthMin))
 	}
 
+	// 発売日のバリデーション
+	if releaseDay.IsZero() {
+		return nil, errDomain.NewError("発売日はゼロ値以外である必要があります")
+	}
+
+	// 金額のバリデーション
+	if price < priceMin {
+		return nil, errDomain.NewError(fmt.Sprintf("金額は%d円以上である必要があります", priceMin))
+	}
+	// 日付のバリデーション(lastUpdateAtのほうが後か)
+	if lastUpdateAt.Before(createAt) {
+		return nil, errDomain.NewError("更新日は作成日よりも後である必要があります")
+	}
+
+	// 削除フラグが立ってない もしくは 削除日は作成日よりも後であるか
+	if deletedAt != nil && deletedAt.Before(createAt) {
+		return nil, errDomain.NewError("削除日は作成日よりも後である必要があります")
+	}
 	return &Book{
 		id:           id,
 		isbn:         isbn,
@@ -78,12 +102,13 @@ func newBook(
 		explain:      explain,
 		createAt:     createAt,
 		lastUpdateAt: lastUpdateAt,
+		deletedAt:    deletedAt,
 	}, nil
 }
 
 func Reconstruct(
 	id string,
-	isbn string,
+	isbn *string,
 	labelID string,
 	publishID string,
 	title string,
@@ -93,6 +118,7 @@ func Reconstruct(
 	explain string,
 	createAt time.Time,
 	lastUpdateAt time.Time,
+	deletedAt *time.Time,
 ) (*Book, error) {
 	return newBook(
 		id,
@@ -106,11 +132,12 @@ func Reconstruct(
 		explain,
 		createAt,
 		lastUpdateAt,
+		deletedAt,
 	)
 }
 
 func NewBook(
-	isbn string,
+	isbn *string,
 	labelID string,
 	publishID string,
 	title string,
@@ -120,6 +147,7 @@ func NewBook(
 	explain string,
 	createAt time.Time,
 	lastUpdateAt time.Time,
+	deletedAt *time.Time,
 ) (*Book, error) {
 	return newBook(
 		ulid.NewULID(),
@@ -133,6 +161,7 @@ func NewBook(
 		explain,
 		createAt,
 		lastUpdateAt,
+		deletedAt,
 	)
 }
 
@@ -141,7 +170,7 @@ func (b *Book) ID() string {
 }
 
 func (b *Book) ISBN() string {
-	return b.isbn
+	return *b.isbn
 }
 
 func (b *Book) LabelID() string {
@@ -182,6 +211,10 @@ func (b *Book) CreateAt() time.Time {
 
 func (b *Book) LastUpdateAt() time.Time {
 	return b.lastUpdateAt
+}
+
+func (b *Book) DeletedAt() *time.Time {
+	return b.deletedAt
 }
 
 type BookAuthors []BookAuthor
