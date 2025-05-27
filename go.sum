@@ -8,4 +8,6 @@ github.com/oklog/ulid/v2 v2.1.1 h1:suPZ4ARWLOJLegGFiZZ1dFAkqzhMjL3J1TzI+5wHz8s=
 github.com/oklog/ulid/v2 v2.1.1/go.mod h1:rcEKHmBBKfef9DhnvX7y1HZBYxjXb0cP5ExxNsTT1QQ=
 github.com/osamingo/checkdigit v1.0.1 h1:gO6h1ZGu6pEYPXT8cqIzAfs2TCFBuzs5H4PC9qH1QjU=
 github.com/osamingo/checkdigit v1.0.1/go.mod h1:G4GBb2qCDo+goNa9OMuauktGDQFX1LfZIh/h5pUi2R8=
+github.com/osamingo/checkdigit v1.1.0 h1:AUs1YP7tor3xQvYq2Oe9VAO2Bkjk+EBwvS94P31gudk=
+github.com/osamingo/checkdigit v1.1.0/go.mod h1:zEWhZaMt+g1BJCh/LLdVn85+xYhe5R8qwWdQfYcLvDw=
 github.com/pborman/getopt v0.0.0-20170112200414-7148bc3a4c30/go.mod h1:85jBQOZwpVEaDAr341tbn15RS4fCAsIst0qp7i8ex1o=
