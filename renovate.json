@@ -1,9 +1,12 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "timezone": "Asia/Tokyo",
+  "automergeType": "pr",
+  "rebaseWhen": "conflicted",
   "extends": [
     "config:recommended"
   ],
-    "packageRules": [
+  "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
