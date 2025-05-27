@@ -1,0 +1,22 @@
+name: Merge into main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-coverage:
+    name: Test and Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.3'
+      - name: Run tests with coverage
+        run: go test ./... -coverprofile=coverage.txt
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
