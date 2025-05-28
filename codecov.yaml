@@ -1,0 +1,27 @@
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+
+# Custom flags for different parts of the project
+flags:
+  backend:
+    paths:
+      - "internal/domain/book"
+      - "internal/domain/author"
+      - "internal/domain/series"
+      - "internal/domain/publish"
+      - "internal/domain/label"
+
+# Exclude specific files or directories
+exclude:
+  - "tests/*"
+  - "**/*_test.go"
+
+# Notify settings
+notify:
+  require_ci_to_pass: yes
