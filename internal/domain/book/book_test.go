@@ -18,8 +18,8 @@ func TestNewBook(t *testing.T) {
 	authorID1 := ulid.NewULID()
 	authorID2 := ulid.NewULID()
 	now := time.Now()
-	early := now.Add(-1 * time.Hour)
-	latest := now.Add(1 * time.Hour)
+	earlier := now.Add(-1 * time.Hour)
+	later := now.Add(1 * time.Hour)
 	type args struct {
 		isbn         *string
 		labelID      string
@@ -146,7 +146,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -169,7 +169,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -192,7 +192,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -215,7 +215,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -234,7 +234,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -257,7 +257,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -280,7 +280,7 @@ func TestNewBook(t *testing.T) {
 				price:        -1,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
+				lastUpdateAt: later,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -303,7 +303,7 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: early,
+				lastUpdateAt: earlier,
 				deletedAt:    nil,
 			},
 			want:       nil,
@@ -326,8 +326,8 @@ func TestNewBook(t *testing.T) {
 				price:        800,
 				explain:      "書籍の説明",
 				createAt:     now,
-				lastUpdateAt: latest,
-				deletedAt:    &early,
+				lastUpdateAt: later,
+				deletedAt:    &earlier,
 			},
 			want:       nil,
 			wantErr:    true,
