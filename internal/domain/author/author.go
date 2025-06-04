@@ -39,7 +39,7 @@ func newAuthor(
 
 	// 名前(読み)のバリデーション
 	if utf8.RuneCountInString(namePhonic) < namePhonicLengthMin {
-		return nil, errDomain.NewError(fmt.Sprintf("著者名読みは%d文字以上である必要があります", nameLengthMin))
+		return nil, errDomain.NewError(fmt.Sprintf("著者名読みは%d文字以上である必要があります", namePhonicLengthMin))
 	}
 
 	if !text.IsKatakana(namePhonic) {

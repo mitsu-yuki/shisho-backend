@@ -39,11 +39,11 @@ func newPublish(
 
 	// 名前(読み)のバリデーション
 	if utf8.RuneCountInString(namePhonic) < namePhonicLengthMin {
-		return nil, errDomain.NewError(fmt.Sprintf("著者名読みは%d文字以上である必要があります", namePhonicLengthMin))
+		return nil, errDomain.NewError(fmt.Sprintf("出版社名読みは%d文字以上である必要があります", namePhonicLengthMin))
 	}
 
 	if !text.IsKatakana(namePhonic) {
-		return nil, errDomain.NewError("著者名読みはカタカナである必要があります")
+		return nil, errDomain.NewError("出版社名読みはカタカナである必要があります")
 	}
 
 	// 日付のバリデーション(lastUpdateAtのほうが後か)

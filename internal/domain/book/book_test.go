@@ -369,3 +369,51 @@ func TestNewBook(t *testing.T) {
 		})
 	}
 }
+
+func TestBook_ISBN(t *testing.T) {
+	validISBN := "9784758079211"
+	labelID := ulid.NewULID()
+	publishID := ulid.NewULID()
+	authorID := ulid.NewULID()
+	now := time.Now()
+
+	b, err := NewBook(
+		&validISBN,
+		labelID,
+		publishID,
+		"title",
+		[]BookAuthor{{authorID: authorID}},
+		now,
+		1000,
+		"explain",
+		now,
+		now,
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if got := b.ISBN(); got != validISBN {
+		t.Errorf("ISBN() = %s, want %s", got, validISBN)
+	}
+
+	bNil, err := NewBook(
+		nil,
+		labelID,
+		publishID,
+		"title",
+		[]BookAuthor{{authorID: authorID}},
+		now,
+		1000,
+		"explain",
+		now,
+		now,
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if got := bNil.ISBN(); got != "" {
+		t.Errorf("ISBN() = %s, want empty string", got)
+	}
+}
