@@ -70,7 +70,7 @@ func TestNewPublish(t *testing.T) {
 			},
 			want:       nil,
 			wantErr:    true,
-			wantErrStr: fmt.Sprintf("著者名読みは%d文字以上である必要があります", namePhonicLengthMin),
+			wantErrStr: fmt.Sprintf("出版社名読みは%d文字以上である必要があります", namePhonicLengthMin),
 		},
 		{
 			name: "異常系: namePhonicがカタカナでない",
@@ -83,7 +83,7 @@ func TestNewPublish(t *testing.T) {
 			},
 			want:       nil,
 			wantErr:    true,
-			wantErrStr: "著者名読みはカタカナである必要があります",
+			wantErrStr: "出版社名読みはカタカナである必要があります",
 		},
 		{
 			name: "異常系: 更新日が不正",
