@@ -170,6 +170,9 @@ func (b *Book) ID() string {
 }
 
 func (b *Book) ISBN() string {
+	if b.isbn == nil {
+		return ""
+	}
 	return *b.isbn
 }
 
