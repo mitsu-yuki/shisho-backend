@@ -1,4 +1,4 @@
-FROM golang:1.25.3-alpine3.21
+FROM golang:1.25.4-alpine3.21
 
 ARG USER_ID="10000"
 ARG GROUP_ID="10001"
